@@ -1,6 +1,0 @@
-10		max. iterations of inner loop nmaxbc
-50.		Starting Inflow Arteriole PO2 inArtPO2
-40.		Starting Inflow Venule PO2 inVenPO2
-45.		Starting Inflow Capillary PO2 inCapPO2
-0.4		inflow hematocrit HDin0
-1e-4	outflow concentration error
