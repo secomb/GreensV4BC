@@ -13,9 +13,9 @@ See greens.cpp for description of changes.
 #include <math.h>
 #include "nrutil.h"
 //#include <Windows.h>	//needed for CopyFile
-#include <boost/filesystem.hpp>	//needed for copy_file, no longer requires windows.h
+//#include <boost/filesystem.hpp>	//needed for copy_file, no longer requires windows.h
 
-namespace fs = boost::filesystem;
+//namespace fs = boost::filesystem;
 
 void input(void);
 void analyzenet(void);
@@ -95,16 +95,16 @@ int main(int argc, char *argv[])
 
 	FILE *ofp;
 	//Create a Current subdirectory if it does not already exist. August 2017.  Modified January 2019
-	if (!fs::exists("Current")) fs::create_directory("Current");	
+	//if (!fs::exists("Current")) fs::create_directory("Current");	
 
-	fs::copy_file("BCparams.dat", fs::path("Current/BCparams.dat"), fs::copy_option::overwrite_if_exists);
-	fs::copy_file("ContourParams.dat", fs::path("Current/ContourParams.dat"), fs::copy_option::overwrite_if_exists);
-	fs::copy_file("SoluteParams.dat", fs::path("Current/SoluteParams.dat"), fs::copy_option::overwrite_if_exists);
-	fs::copy_file("Network.dat", fs::path("Current/Network.dat"), fs::copy_option::overwrite_if_exists);
-	fs::copy_file("IntravascRes.dat", fs::path("Current/IntravascRes.dat"), fs::copy_option::overwrite_if_exists);
-	if (fs::exists("Varyparams.dat")) 
-		fs::copy_file("VaryParams.dat", fs::path("Current/VaryParams.dat"), fs::copy_option::overwrite_if_exists);
-	fs::copy_file("tissrate.cpp.dat", fs::path("Current/tissrate.cpp.dat"), fs::copy_option::overwrite_if_exists);
+	//fs::copy_file("BCparams.dat", fs::path("Current/BCparams.dat"), fs::copy_option::overwrite_if_exists);
+	//fs::copy_file("ContourParams.dat", fs::path("Current/ContourParams.dat"), fs::copy_option::overwrite_if_exists);
+	//fs::copy_file("SoluteParams.dat", fs::path("Current/SoluteParams.dat"), fs::copy_option::overwrite_if_exists);
+	//fs::copy_file("Network.dat", fs::path("Current/Network.dat"), fs::copy_option::overwrite_if_exists);
+	//fs::copy_file("IntravascRes.dat", fs::path("Current/IntravascRes.dat"), fs::copy_option::overwrite_if_exists);
+	//if (fs::exists("Varyparams.dat")) 
+	//	fs::copy_file("VaryParams.dat", fs::path("Current/VaryParams.dat"), fs::copy_option::overwrite_if_exists);
+	//fs::copy_file("tissrate.cpp.dat", fs::path("Current/tissrate.cpp.dat"), fs::copy_option::overwrite_if_exists);
 
 	input();
 
