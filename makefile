@@ -16,10 +16,11 @@ OBJSC=$(SOURCES:.c=.o)
 OBJS=$(OBJSC:.cpp=.o)
 
 # the target is obtained linking all .o files
+# for mac: remove -lstdc++fs tag following $(TARGET)
 all: $(SOURCES) $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o $(TARGET) -lstdc++fs 
+	$(CC) $(LFLAGS) $(OBJS) -o $(TARGET) -lstdc++fs
 
 purge: clean
 	rm -f $(TARGET)

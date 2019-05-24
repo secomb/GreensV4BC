@@ -14,8 +14,13 @@ See greens.cpp for description of changes.
 #include "nrutil.h"
 
 #if defined(__linux__)
-	#include <experimental/filesystem> //Requires c++17, install llvm on mac
+	// Requires c++17 support, should be included in all current linux releases
+	#include <experimental/filesystem> 
 	namespace fs = std::experimental::filesystem::v1;
+#elif defined(__APPLE__)
+	// Requires removal of the -lstdc++fs flag from makefile
+	#include <filesystem>
+	namespace fs = std::filesystem;
 #elif defined(_WIN32)    //Windows version
 	#include <Windows.h>
 #endif
