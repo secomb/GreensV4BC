@@ -14,7 +14,7 @@ See greens.cpp for description of changes.
 #include "nrutil.h"
 
 #if defined(__linux__)
-	#include <experimental/filesystem>
+	#include <experimental/filesystem> //Requires c++17, install llvm on mac
 	namespace fs = std::experimental::filesystem::v1;
 #elif defined(_WIN32)    //Windows version
 	#include <Windows.h>
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 		CopyFile("network.dat","Current\\network.dat",NoOverwrite);
 		CopyFile("tissrate.cpp.dat","Current\\tissrate.cpp.dat",NoOverwrite);
 	#endif
-		
+
 	input();
 
 	is2d = 0; //set to 1 for 2d version, 0 otherwise
