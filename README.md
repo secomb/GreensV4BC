@@ -57,7 +57,8 @@ The objective is to provide a method for estimating oxygen levels on inflowing v
 - the arteriolar inflow concentration is calculated taking into account an upstream region of fixed volume and a fixed arterial inflow PO2;    
 - the flow-weighted average of the oxygen concentrations in outflowing capillaries is calculated and used as the concentration in inflowing capillaries;  
 - the flow-weighted average of the oxygen concentrations in outflowing venules is calculated and used as the concentration in inflowing venules.  
-This requires an additional level of iteration of Greens to achieve convergence of these two oxygen levels.
+This requires an additional level of iteration of Greens to achieve convergence of these two oxygen levels.  
+
 The network.dat file should contain a clssification of boundary nodes according to the following scheme:  
 9: Inflow arteriole  
 8: Outflow arteriole  
