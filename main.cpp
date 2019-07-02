@@ -108,8 +108,6 @@ int main(int argc, char *argv[])
 		
 	#elif defined(_WIN32)
 		BOOL NoOverwrite = FALSE;
-		FILE *ofp;
-
 		CopyFile("SoluteParams.dat","Current\\SoluteParams.dat",NoOverwrite);
 		CopyFile("IntravascRes.dat","Current\\IntravascRes.dat",NoOverwrite);
 		CopyFile("ContourParams.dat","Current\\ContourParams.dat",NoOverwrite);

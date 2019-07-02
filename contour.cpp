@@ -2,6 +2,7 @@
 contour.cpp - generate data for contour plot.  TWS Dec. 07
 Version 3.0, May 17, 2011.
 Produces a single postscript file with a page for each solute
+Note override of levels to give contours at 1, 2 and 5 for solute 1
 ***********************************************************/
 #define _CRT_SECURE_NO_DEPRECATE
 
@@ -77,12 +78,14 @@ void contour(const char fname[])
 		for (isl1 = 1; isl1 <= nsl1; isl1++)	for (isl2 = 1; isl2 <= nsl2; isl2++) zv[isl1][isl2] = psl[isl1][isl2][isp];
 		for (i = 1; i <= nl[isp]; i++) cl[i] = clmin[isp] + (i - 1)*clint[isp];
 
+		/*
+
 		if (isp == 1) {
 			cl[1] = 1.;		//override contour levels to give contours at p = 1, 2 and 5
 			cl[2] = 2.;
 			cl[3] = 5.;
 		}
-
+		*/
 
 		contr_shade(ofp, nsl1, nsl2, scalefac, nl[isp], xmin, xmax, ymin, ymax, cl, zv, 1, 1, 0, 0);
 		//		contr_lines(ofp,nsl1,nsl2,scalefac,nl[isp],xmin,xmax,ymin,ymax,cl,zv);

@@ -13,7 +13,6 @@ Version 4.0, March 1, 2018.
 #include <string.h>
 #include <math.h>
 #include "nrutil.h"
-#include <iostream>
 
 int outboun(int method);
 
@@ -21,18 +20,13 @@ void analyzenet()
 {
 	extern int nseg,nnod,nnodbc,nnv,nnt,mxx,myy,mzz,nodsegm;
 	extern int *bcnodname,*bcnod,*bctyp,*nodtyp,*segtyp,*nspoint,*nodname,*ista,*iend,*istart,*segname;
-	extern int **segnodname,**nodnod,**nodseg;
-	extern int ***nbou;
+	extern int **segnodname, **nodnod, **nodseg, ***nbou;
 	extern float pi1,maxl,lb,alx,aly,alz,totalq;
-	extern float *diam,*lseg,*rseg,*ds,*ss,*axt,*ayt,*azt,*hd,*q;
-	extern float *bcprfl, *qdata;
-	extern float **cnode,**start,**end,**scos;
-	extern float ***rsta,***rend;
+	extern float *diam, *lseg, *rseg, *ds, *ss, *axt, *ayt, *azt, *hd, *q, *qdata, *bcprfl;
+	extern float **cnode, **start, **end, **scos, ***rsta, ***rend;
 
 	int i,j,k,iseg,inod,inod1,inod2,inodbc,m;
 	float sintheta,sinfi,cosfi,t,delx,dely,delz;
-
-	FILE *ofp;
 
 	//Find node numbers corresponding to segment nodes - for all segments
 	for(inod=1; inod<=nnod; inod++) nodtyp[inod] = 0;
@@ -73,7 +67,7 @@ void analyzenet()
 		printf("*** Error: No matching node found for nodname %i\n", bcnodname[inodbc]);
 		foundit:;
 	}
-	//Calculate total inflow to network. TWS July 2018
+//Calculate total inflow to network based on reference flow values. TWS July 2018
 	totalq = 0.;
 	for (inodbc = 1; inodbc <= nnodbc; inodbc++) {
 		inod = bcnod[inodbc];	//boundary node
@@ -94,8 +88,7 @@ void analyzenet()
 		lseg[iseg] = sqrt(lseg[iseg]);
 		if(lseg[iseg] == 0.) printf("*** Error: segment %i has zero length\n",segname[iseg]);//added May 2010, modified July 2017
 		for(j=1; j<=3; j++)	scos[j][iseg] = ss[j]/lseg[iseg];
-	//find points on vessel cylinders (used for tissue region bounds)
-		for(k=0; k<=15; k++){
+		for (k = 0; k <= 15; k++) {			//find points on vessel cylinders (used for tissue region bounds)
 			t = k*2*pi1/16.0;
 			sintheta = sqrt(1.0 - SQR(scos[3][iseg]));
 			if(sintheta > 0.0001){
@@ -114,12 +107,8 @@ void analyzenet()
 			rend[3][k+1][iseg] = rseg[iseg]*sintheta*sin(t) + end[3][iseg];
 		}
 	}
-
-	//subdivide segments into small elements as needed
-	//compute coordinates of source points
-	//nnv = total number of elements	
-
-	nnv = 0;
+	//subdivide segments into small elements as needed, compute coordinates of source points
+	nnv = 0;	//nnv = total number of vessel elements
 	for(iseg=1; iseg<=nseg; iseg++) if(segtyp[iseg] == 4 || segtyp[iseg] == 5){
 		m = lseg[iseg]/maxl + 1;
 		nspoint[iseg] = m;
@@ -128,41 +117,11 @@ void analyzenet()
 		nnv += m;
 	}
 	printf("Total vessel points = %i\n", nnv);
-	//compute coordinates of tissue points
-	delx = alx/mxx;
+	delx = alx / mxx;		//compute coordinates of tissue points
 	for(i=1; i<=mxx; i++) axt[i] = (i-0.5f)*delx;
 	dely = aly/myy;
 	for(i=1; i<=myy; i++) ayt[i] = (i-0.5f)*dely;
 	delz = alz/mzz;
 	for(i=1; i<=mzz; i++) azt[i] = (i-0.5f)*delz;
-	//create array of tissue points inside tissue domain boundaries using method 1 or 2
-	nnt = outboun(2);
-
-	/*//check boundary condition flows
-	for (inodbc = 1; inodbc <= nnodbc; inodbc++) if(bctyp[inodbc] == 2){
-		inod = bcnod[inodbc];
-		iseg = nodseg[1][inod];
-		inod1 = ista[iseg];
-		inod2 = iend[iseg];
-		if (inod == inod1) {
-			if (fabs(bcprfl[inodbc] - qdata[iseg]) > 0.001)
-				printf("*** Error in boundary condition flow\n");
-		}
-		else if (inod == inod2) {
-			if (fabs(bcprfl[inodbc] + q[iseg]) > 0.001)
-				printf("*** Error in boundary condition flow\n");
-		}
-		else printf("*** Error in boundary condition flow\n");
-	}*/
-
-	//create labels for boundary nodes
-	ofp = fopen("Current/bcnodlabels.txt", "w");
-	fprintf(ofp, "inodbc nodname bctyp\n");
-	
-	for (inodbc = 1; inodbc <= nnodbc; inodbc++) {
-		if (bctyp[inodbc] > 9 || bctyp[inodbc] < 4) printf("*** Error: Boundary note %i not classified\n", inodbc);
-		fprintf(ofp, "%i %i %i\n", inodbc, nodname[inodbc], bctyp[inodbc]);
-	}
-
-	fclose(ofp);
+	nnt = outboun(1); 	//create array of tissue points inside tissue domain boundaries using method 1, 2 or 5
 }
