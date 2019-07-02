@@ -1,10 +1,8 @@
-﻿# GreensV4BC
-
-# Green’s function method version 4 (non-GPU version) with estimation of boundary conditions
+﻿# GreensV4BC: Green’s function method version 4 (non-GPU version) with estimation of boundary conditions
 
 In the Green’s function method for simulating solute transport from a network of vessels to a finite volume of tissue, vessels and tissue are treated as distributions of sources of sinks. The method is described in: Secomb TW, Hsu R, Park EY, Dewhirst MW. 2004 Green's function methods for analysis of oxygen delivery to tissue by microvascular networks. Ann. Biomed. Eng 32, 1519-1529.
 
-Notes
+**Notes**
 
 1. This method uses an “infinite-domain solution,” in which the network of vessels and the associated tissue domain are effectively embedded in an infinite space with zero net exchange of solute across the tissue domain boundaries. Such an approach has two advantages: it is applicable to tissue domains of arbitrary shape, and it avoids artifacts that can occur when specific boundary conditions, such as the no-flux condition, are imposed.
 
@@ -37,7 +35,7 @@ greens.exelem, greens.exenode, greens.com.txt [New in Version 4] - Files used to
 
 9. This program is freely available for non-commercial use, provided appropriate acknowledgement is given. Commercial users please contact us before using this program. No assurance is given that it is free of errors and any use is at the user’s risk.
 
-Version 4.0 changes
+**Version 4.0 changes**
 
 1. Method to vary blood flow rates throughout network. In versions 3 and below, the parameter q0 was included (SoluteParams.dat, line 10) to give the total inflow to the network. In version 4, a parameter q0fac is defined (SoluteParams.dat, line 10). When the program is run, all segment flows specified in Network.dat are multiplied by q0fac. This change is NOT compatible with SoluteParams.dat files used for versions 3 and below.
 2. Number of tissue parameters per solute. In versions 3 and below, three tissue parameters at most could be defined per solute. In version 4, the number of parameters is defined as the second entry in line 11 of SoluteParams.dat. This change is NOT compatible with SoluteParams.dat files used for versions 3 and below.
@@ -55,27 +53,26 @@ Version 4.0 changes
 **Modifications for estimation of boundary conditions**
 
 The objective is to provide a method for estimating oxygen levels on inflowing vessels, depending on whether they are arterioles, capillaries or venules. The method is:  
--conceptually, the tissue region (simlation region) is connected to an upstream region and aparallel region, together forming a representative flow pathway from arteries to veins; 
--the arteriolar inflow concentration is calculated taking into account an upstream region of fixed volume and a fixed arterial inflow PO2;    
--the flow-weighted average of the oxygen concentrations in outflowing capillaries is calculated and used as the concentration in inflowing capillaries;  
--the flow-weighted average of the oxygen concentrations in outflowing venules is calculated and used as the concentration in inflowing venules.  
+- conceptually, the tissue region (simlation region) is connected to an upstream region and aparallel region, together forming a representative flow pathway from arteries to veins; 
+- the arteriolar inflow concentration is calculated taking into account an upstream region of fixed volume and a fixed arterial inflow PO2;    
+- the flow-weighted average of the oxygen concentrations in outflowing capillaries is calculated and used as the concentration in inflowing capillaries;  
+- the flow-weighted average of the oxygen concentrations in outflowing venules is calculated and used as the concentration in inflowing venules.  
 This requires an additional level of iteration of Greens to achieve convergence of these two oxygen levels.
-The network.dat file should contain a clssification of boundary nodes according to the following scheme:
+The network.dat file should contain a clssification of boundary nodes according to the following scheme:  
 9: Inflow arteriole  
 8: Outflow arteriole  
 7: Inflow capillary  
 6: Outflow capillary  
 5: Inflow venule  
 4: Outflow venule    
-This classification is carried out by FlowEstimate V1.  
-An additional input file is required (BCparams.dat) with the following parameters:   
+This classification is carried out by FlowEstimate V1. An additional input file is required (BCparams.dat) with the following parameters:   
 nmaxbc: Max. iterations of boundary conditions;   
 inArteryPO2: Fixed inflow artery PO2 (fixed)  
 inArtPO2: Initial inflow arteriole PO2  
 inVenPO2: Initial inflow venule PO2  
 inCapPO2: Initial inflow capillary PO2   
 HDin0: Inflow hematocrit   
-outConcErrMax: Outflow concentration error tolerance
+outConcErrMax: Outflow concentration error tolerance  
 The program also computes effective perfusion of the tissue based on fractional assignment of flows to each region according to the fraction of decline in oxygen concentration that occurs in that region.  
 
 Updated 1 July 2019
