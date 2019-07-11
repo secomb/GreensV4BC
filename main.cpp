@@ -45,7 +45,7 @@ void postgreens(void);
 void blood(float c, float h, float *p, float *pp);
 float bloodconc(float p, float h);
 
-int max = 100, nmaxvessel, nmaxtissue, nmax, nmaxbc, rungreens, initgreens, g0method, linmethod, is2d;
+int max = 200, nmaxvessel, nmaxtissue, nmax, nmaxbc, rungreens, initgreens, g0method, linmethod, is2d;
 int mxx, myy, mzz, nnt, nseg, nnod, nnodfl, nnv, nsp, nnodbc, nodsegm, nsegfl, kmain, imain;
 int slsegdiv, nsl1, nsl2;
 int nvaryparams, nruns, ntissparams, npostgreensparams, npostgreensout;	//needed for varying parameters, postgreens
